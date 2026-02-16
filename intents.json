@@ -1,0 +1,143 @@
+[
+  {
+    "id": "get_vehicle_status",
+    "title": "მანქანის მიმდინარე სტატუსი",
+    "examples": [
+      "მანქანა ჩართულია?",
+      "ძრავი მუშაობს?",
+      "ახლა მოძრაობს?",
+      "სიჩქარე რამდენია?",
+      "სად არის მანქანა ახლა?"
+    ],
+    "keywords": [
+      "მანქანა",
+      "ახლა",
+      "სად",
+      "სიჩქარე",
+      "ძრავი",
+      "მიმდინარე"
+    ],
+    "requiresAuth": true,
+    "required_slots": [
+      "vehicleId_or_plate"
+    ],
+    "api": {
+      "method": "GET",
+      "path": "/api/v1/vehicles/status",
+      "auth": "bearer"
+    },
+    "request_mapping": {
+      "query": {
+        "vehicle": "{{vehicleId_or_plate}}"
+      }
+    },
+    "response_template": "მანქანა: {{plate}} • ძრავი: {{engine}} • სიჩქარე: {{speed}} კმ/სთ • მისამართი: {{address}}"
+  },
+  {
+    "id": "get_vehicle_history",
+    "title": "მანქანის ისტორია (პერიოდი)",
+    "examples": [
+      "გუშინ სად იყო მანქანა?",
+      "ბოლო 24 საათის ისტორია მაჩვენე",
+      "ისტორია მინდა",
+      "კონკრეტულ დროს სად იყო?"
+    ],
+    "keywords": [
+      "ისტორია",
+      "გუშინ",
+      "ბოლო",
+      "დრო",
+      "პერიოდი"
+    ],
+    "requiresAuth": true,
+    "required_slots": [
+      "vehicleId_or_plate",
+      "from",
+      "to"
+    ],
+    "api": {
+      "method": "GET",
+      "path": "/api/v1/vehicles/history",
+      "auth": "bearer"
+    },
+    "request_mapping": {
+      "query": {
+        "vehicle": "{{vehicleId_or_plate}}",
+        "from": "{{from}}",
+        "to": "{{to}}"
+      }
+    },
+    "response_template": "ისტორია მომზადდა მითითებული პერიოდისთვის: {{from}} - {{to}}. თუ გსურთ, შემიძლია PDF რეპორტიც დაგიგენერიროთ."
+  },
+  {
+    "id": "get_fuel_report",
+    "title": "საწვავის რეპორტი",
+    "examples": [
+      "საწვავის რეპორტი მაჩვენე",
+      "წვა რა არის?",
+      "ჩასხმა/ამოღება სად ვნახო?"
+    ],
+    "keywords": [
+      "საწვავი",
+      "წვა",
+      "ჩასხმა",
+      "ამოღება",
+      "რეპორტი"
+    ],
+    "requiresAuth": true,
+    "required_slots": [
+      "vehicleId_or_plate",
+      "from",
+      "to"
+    ],
+    "api": {
+      "method": "GET",
+      "path": "/api/v1/reports/fuel",
+      "auth": "bearer"
+    },
+    "request_mapping": {
+      "query": {
+        "vehicle": "{{vehicleId_or_plate}}",
+        "from": "{{from}}",
+        "to": "{{to}}"
+      }
+    },
+    "response_template": "საწვავის რეპორტი: {{summary}}"
+  },
+  {
+    "id": "generate_pdf_report",
+    "title": "PDF რეპორტის გენერაცია",
+    "examples": [
+      "pdf რეპორტი გამიკეთე",
+      "რეპორტი ჩამომიტვირთე",
+      "ფაილად მინდა"
+    ],
+    "keywords": [
+      "pdf",
+      "ფაილი",
+      "ჩამოტვირთვა",
+      "რეპორტი"
+    ],
+    "requiresAuth": true,
+    "required_slots": [
+      "reportType",
+      "from",
+      "to",
+      "vehicleId_or_plate"
+    ],
+    "api": {
+      "method": "POST",
+      "path": "/api/v1/reports/pdf",
+      "auth": "bearer"
+    },
+    "request_mapping": {
+      "body": {
+        "type": "{{reportType}}",
+        "vehicle": "{{vehicleId_or_plate}}",
+        "from": "{{from}}",
+        "to": "{{to}}"
+      }
+    },
+    "response_template": "PDF რეპორტი მზადაა. ჩამოსატვირთი ბმული: {{url}}"
+  }
+]
